@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <script src="https://npmcdn.com/vue/dist/vue.js"></script>
+  <title>基礎から学ぶ Vue.js 輪読会 CHAPTER 5 前半</title>
+  <!-- <link rel='stylesheet' href='main.css'> -->
+  <style>
+    body {
+      padding-left: 10rem;
+      padding-right: 10rem;
+    }
+
+    h1 {
+      padding-bottom: 0.5rem;
+      border-bottom: 5px solid #000;
+    }
+
+    h2 {
+      color: forestgreen;
+      margin-top: 3rem;
+    }
+
+    hr {
+      margin: 3rem 0;
+    }
+
+    .code {
+      font-family: 'Courier New', Courier, monospace;
+      font-weight: bold;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      background-color: #eef;
+      padding: 1rem 1rem;
+      white-space: pre;
+    }
+
+    .component {
+      border: 1px solid #ccc;
+      background-color: #eee;
+      padding: 1rem 1rem;
+    }
+
+    .column {
+      border: 1px solid #cdc;
+      background-color: #efe;
+      padding: 1rem 1rem;
+      overflow: scroll;
+    }
+
+    pre {
+      margin: 0;
+      padding: 0;
+    }
+
+    code {
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 12px;
+    }
+
+    .parent {
+      background-color: #dcc;
+      display: inline-block;
+      padding: 0.5rem;
+    }
+
+    .child {
+      background-color: #fee;
+      display: inline-block;
+      padding: 0.5rem;
+    }
+
+    .named {
+      background-color: #cbb;
+      display: inline-block;
+      padding: 0.5rem;
+    }
+
+    .scoped {
+      background-color: #baa;
+      display: inline-block;
+      padding: 0.5rem;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Root 要素 -->
+  <div id="app">
+
+    <h1>基礎から学ぶ Vue.js 輪読会 CHAPTER 5 前半</h1>
+    <h2>SECTION 21 : コンポーネントとは</h2>
+
+    <ul>
+      <li>コンポーネントとモジュールは何が違う？</li>
+      <li>Vue.js では、UI 部品ごとに テンプレートや JavaScript を一つのセットにして、他の UI 部品と切り離して開発できる</li>
+      <li>コンポーネントは設計図</li>
+      <li>設計図から作成された実体はインスタンス</li>
+      <li>再利用性と汎用性</li>
+    </ul>
+
+    <h2>SECTION 22 : コンポーネントの定義方法</h2>
+
+    <!-- はじめのコンポーネント -->
+    <h3>はじめのコンポーネント</h3>
+    <div class='code'>
+      &lt;my-component&gt;&lt;/my-component&gt;
+    </div>
+    <div class='component'>
+      <my-component></my-component>
+    </div>
+    <hr>
+
+    <!-- ローカルコンポーネント -->
+    <h3>ローカルコンポーネント</h3>
+    <div class='code'>
+      &lt;my-component-local&gt;&lt;/my-component-local&gt;
+    </div>
+    <div class='component'>
+      <my-component-local></my-component-local>
+    </div>
+
+    <hr>
+
+    <h3>複数のルート要素のときのエラー</h3>
+
+    <div class='column'>
+      <pre><code>
+Component template should contain exactly one root element. If you are using v-if on multiple elements, use v-else-if to chain them instead.
+1  |  
+2  |        < p>My Component< /p>
+3  |        < p>My Component< /p>
+   |        ^^^^^^^^^^^^^^^^^^^
+4  |        
+   |  ^^^^^^
+found in
+---> < MyComponent >
+      < Root >
+      </code></pre>
+    </div>
+
+    <!-- コンポーネントのインスタンス -->
+    <h3>コンポーネントのインスタンス</h3>
+    <div class='code'>
+      &lt;my-component&gt;&lt;/my-component&gt;
+      &lt;my-component&gt;&lt;/my-component&gt;
+    </div>
+    <div class='component'>
+      <my-component></my-component>
+      <my-component></my-component>
+    </div>
+
+    <hr>
+
+    <h2>SECTION 23 : コンポーネント間の通信</h2>
+
+    <!-- 親子コンポーネント -->
+    <h3>親子コンポーネント</h3>
+    <div class='code'>
+    </div>
+    <div class='component'>
+      <parent-component></parent-component>
+    </div>
+    <hr>
+
+    <!-- 親から子 -->
+    <h3>親から子</h3>
+    <div class='code'>
+      &lt;parent-component&gt;&lt;/parent-component&gt;
+    </div>
+    <div class='component'>
+      <parent-component-2></parent-component-2>
+    </div>
+    <hr>
+
+    <!-- コンポーネントにリアクティブなデータを渡す -->
+    <h3>コンポーネントにリアクティブなデータを渡す</h3>
+    <div class='code'>
+      &lt;parent-component-3&gt;&lt;/parent-component-3&gt;
+    </div>
+    <div class='component'>
+      <parent-component-3></parent-component-3>
+    </div>
+    <hr>
+
+    <!-- コンポーネントをリストレンダリング -->
+    <h3>コンポーネントをリストレンダリング</h3>
+    <div class='code'>
+      &lt;parent-component-4 v-bind:list=&quot;list&quot;&gt;&lt;/parent-component-4&gt;
+    </div>
+    <div class='component'>
+      <parent-component-4 v-bind:list="list"></parent-component-4>
+    </div>
+
+    <p>型の定義</p>
+
+    <div class='column'>
+      <pre><code>
+[Vue warn]: Invalid prop: type check failed for prop "hp". Expected String with value "20", got Number with value 20.
+
+found in
+
+---> < ChildComponent4 >
+       < ParentComponent4 >
+         < Root >
+      </code></pre>
+    </div>
+
+    <hr>
+
+    <!-- 子から親 -->
+    <h3>子から親</h3>
+    <div class='code'>
+      &lt;parent-component-5&gt;&lt;/parent-component-5&gt;
+    </div>
+    <div class='component'>
+      <parent-component-5></parent-component-5>
+    </div>
+    <hr>
+
+    <!-- 親が持つデータを操作 -->
+    <h3>親が持つデータを操作</h3>
+    <div class='code'>
+      &lt;parent-component-6 v-bind:list=&quot;list&quot;&gt;&lt;/parent-component-6&gt;
+    </div>
+    <div class='component'>
+      <parent-component-6 v-bind:list="list"></parent-component-6>
+    </div>
+    <hr>
+
+    <!-- 非親子コンポーネント -->
+    <h3>非親子コンポーネント</h3>
+    <div class='code'>
+      &lt;plain-component-b&gt;&lt;/plain-component-b&gt;
+      &lt;plain-component-a&gt;&lt;/plain-component-a&gt;
+    </div>
+    <div class='component'>
+      <plain-component-b></plain-component-b>
+      <plain-component-a></plain-component-a>
+    </div>
+    <hr>
+
+    <!-- $refs -->
+    <h3>$refs & Attr Scope</h3>
+    <div class='code'>
+      &lt;refs-parent-component val=&quot;REF&quot;&gt;&lt;/refs-parent-component&gt;
+    </div>
+    <div class='component'>
+      <refs-parent-component val="REF"></refs-parent-component>
+    </div>
+    <hr>
+
+    <h2>SECTION 24 : スロットを使ったコンポーネントのカスタマイズ</h2>
+
+    <!-- デフォルトスロット -->
+    <h3>デフォルトスロット</h3>
+    <div class='code'>
+      &lt;slot-parent-component&gt;&lt;/slot-parent-component&gt;
+    </div>
+    <div class='component'>
+      <slot-parent-component></slot-parent-component>
+    </div>
+    <hr>
+
+    <!-- 名前つきスロット -->
+    <h3>名前つきスロット</h3>
+    <div class='code'>
+      &lt;named-slot-parent-component&gt;&lt;/named-slot-parent-component&gt;
+    </div>
+    <div class='component'>
+      <named-slot-parent-component></named-slot-parent-component>
+    </div>
+    <hr>
+
+    <!-- スコープ付きスロット -->
+    <h3>スコープ付きスロット</h3>
+    <div class='code'>
+      &lt;scoped-slot-parent-component&gt;&lt;/scoped-slot-parent-component&gt;
+    </div>
+    <div class='component'>
+      <scoped-slot-parent-component></scoped-slot-parent-component>
+    </div>
+    <hr>
+
+    <!-- スコープ付きスロット 2 -->
+    <h3>スコープ付きスロット 2</h3>
+    <div class='code'>
+    </div>
+    <div class='component'>
+      <scoped-slot-parent-component-2 v-bind:list="list"></scoped-slot-parent-component-2>
+    </div>
+    <hr>
+
+
+
+
+
+
+  </div>
+
+  <!-- =============================== -->
+
+  <!-- Vue 関係の処理 -->
+  <script>
+
+    // =============================== イベントバス
+
+    var bus = new Vue();
+
+    // =============================== はじめのコンポーネント
+
+    Vue.component('my-component', {
+      template: `
+      <p>My Component</p>
+      `
+    })
+
+    // =============================== ローカルへの登録
+
+    var myComponentLocal = {
+      template: `
+      <p>My Component Local</p>
+      `
+    };
+
+    // =============================== 親子コンポーネント
+
+    Vue.component('parent-component', {
+      template: `
+      <p class="parent">Parent <child-component /> Component</p>
+      `
+    })
+
+    Vue.component('child-component', {
+      template: `
+      <span class="child">Child Component</span>
+      `
+    })
+
+    // =============================== 親から子
+
+    // 親コンポーネント
+    Vue.component('parent-component-2', {
+      template: `
+      <div>
+        <p class="parent">Parent <child-component-2 val="子1" /> Component</p>
+        <p class="parent">Parent <child-component-2 val="子2" /> Component</p>
+      </div>
+      `
+    })
+
+    // 子コンポーネント
+    Vue.component('child-component-2', {
+      template: `
+      <span class="child">Child Component ({{ val }})</span>
+      `,
+      props: ['val']
+    })
+
+    // =============================== コンポーネントにリアクティブなデータを渡す
+
+    // 親コンポーネント
+    Vue.component('parent-component-3', {
+      data: function () {
+        return {
+          message: Math.random()
+        }
+      },
+      template: `
+      <div>
+        <p class="parent">Parent <child-component-3 v-bind:val="message" /> Component</p>
+      </div>
+      `
+    })
+
+    // 子コンポーネント
+    Vue.component('child-component-3', {
+      template: `
+      <span class="child">Child Component ({{ val }})</span>
+      `,
+      props: ['val']
+    })
+
+    // =============================== コンポーネントをリストレンダリング
+
+    // 親コンポーネント
+    Vue.component('parent-component-4', {
+      data: function () {
+        return {
+          message: Math.random()
+        }
+      },
+      template: `
+      <ul>
+        <child-component-4 
+        v-for="item in list" 
+        v-bind:key="item.id"
+        v-bind:name="item.name"
+        v-bind:hp="item.hp"
+        ></child-component-4>
+      </ul>
+      `,
+      props: ['list']
+    })
+
+    // 子コンポーネント
+    Vue.component('child-component-4', {
+      // template: `
+      // <li class="child">NAME: {{ name }} / HP: {{hp}} <button v-on:click="doAttack">こうげき</button></li>
+      // `,
+      template: `
+      <li>NAME: {{ name }} / HP: {{hp}}</li>
+      `,
+      props: ['name', 'hp'],
+      // props: {
+      //   name: String,
+      //   hp: String
+      // },
+      // method: {
+      //   doAttack: function () {
+      //     this.hp -= 10
+      //   }
+      // }
+    })
+
+    // =============================== 子から親
+
+    // 親コンポーネント
+    Vue.component('parent-component-5', {
+      data: function () {
+        return {
+          message: Math.random()
+        }
+      },
+      template: `
+      <div>
+        <p class="parent">Parent <child-component-5 v-on:childs-event="parentsMethods" /> Component</p>
+      </div>
+      `,
+      methods: {
+        parentsMethods: function () {
+          alert('イベントキャッチ')
+        }
+      }
+    })
+
+    // 子コンポーネント
+    Vue.component('child-component-5', {
+      template: `
+      <span class="child">Child Component <button v-on:click="handleClick">イベント発火</button></span>
+      `,
+      methods: {
+        handleClick: function () {
+          this.$emit('childs-event')
+        }
+      }
+    })
+
+    // =============================== 親が持つデータを操作
+
+    // 親コンポーネント
+    Vue.component('parent-component-6', {
+      template: `
+      <ul>
+        <child-component-6 
+        v-for="item in list" 
+        v-bind:key="item.id"
+        v-bind:item="item"
+        v-on:attack="handleAttack"
+        ></child-component-6>
+      </ul>
+      `,
+      props: ['list'],
+      methods: {
+        handleAttack: function (id) {
+          console.log('attack : 2')
+          var item = this.list.find(function (el) {
+            return el.id === id
+          })
+          console.log({ id })
+          console.log({ item })
+          if (item !== undefined && item.hp > 0) {
+            item.hp -= 10
+          }
+        }
+      },
+    })
+
+    // 子コンポーネント
+    Vue.component('child-component-6', {
+      template: `
+      <li>NAME: {{ item.name }} / HP: {{ item.hp }} <button v-on:click="doAttack">こうげき</button></li>
+      `,
+      props: ['item'],
+      methods: {
+        doAttack: function () {
+          console.log('attack : 1')
+          this.$emit('attack', this.item.id)
+        }
+      }
+    })
+
+    // =============================== 非親子コンポーネント
+
+    Vue.component('plain-component-a', {
+      template: `
+      <p class="parent">Plain Component A</p>
+      `,
+      created: function () {
+        console.log('bus-event emit')
+        bus.$emit('bus-event')
+      }
+    })
+
+    Vue.component('plain-component-b', {
+      template: `
+      <p class="parent">Plain Component B</p>
+      `,
+      created: function () {
+        bus.$on('bus-event', function () {
+          console.log('bus-event on')
+          // alert('bus-event')
+        })
+      }
+    })
+
+    // =============================== $refs & Attr Scope
+
+    Vue.component('refs-parent-component', {
+      props: ["val"],
+      template: `
+      <p class="parent">Refs Parent <refs-child-component ref="child" v-on:childs-event="parentsMethod($event, val)" /> Component</p>
+      `,
+      mounted: function () {
+        this.$refs.child.$emit('open')
+      },
+      methods: {
+        parentsMethod(childArgs, parentsArgs) {
+          console.log(childArgs);
+          console.log(parentsArgs);
+        }
+      }
+    })
+
+    Vue.component('refs-child-component', {
+      template: `
+      <span class="child">Refs Child Component</span>
+      `,
+      created: function () {
+        this.$on('open', function () {
+          console.log('ref open')
+          this.$emit('childs-event', { id: 1 })
+        })
+      }
+    })
+
+    // =============================== デフォルトスロット
+
+    Vue.component('slot-parent-component', {
+      template: `
+      <slot-child-component><span class="parent">Parent Component</span></slot-child-component>
+      `
+    })
+
+    Vue.component('slot-child-component', {
+      template: `
+      <span class="child">Child Component <slot>何もない場合</slot> </span>
+      `
+    })
+
+    // =============================== 名前つきスロット
+
+    Vue.component('named-slot-parent-component', {
+      template: `
+      <named-slot-child-component><span class="parent">Parent Component</span><span slot="message" class="named">Named Slot</span> </named-slot-child-component>
+      `
+    })
+
+    Vue.component('named-slot-child-component', {
+      template: `
+      <span class="child">Child Component <slot>何もない場合</slot> <slot name="message"></slot> </span>
+      `
+    })
+
+
+    // =============================== スコープ付きスロット
+
+    Vue.component('scoped-slot-parent-component', {
+      template: `
+      <scoped-slot-child-component>Parent Component <span class="scoped" slot-scope="aaa">{{ aaa.text }}</span> </scoped-slot-child-component>
+      `
+    })
+
+    Vue.component('scoped-slot-child-component', {
+      template: `
+      <span class="child">Child Component <slot text="Hello">何もない場合</slot> </span>
+      `
+    })
+
+    // =============================== スコープ付きスロット 2
+
+    Vue.component('scoped-slot-parent-component-2', {
+      template: `
+      <scoped-slot-child-component-2 v-bind:list="list">
+        <li slot-scope="props">{{ props.item }}</li>
+      </scoped-slot-child-component-2>
+      `,
+      props: ['list']
+    })
+
+    Vue.component('scoped-slot-child-component-2', {
+      template: `
+      <ul>
+        <slot v-for="item in list" v-bind:item="item"></slot>
+      </ul>
+      `,
+      props: ['list']
+    })
+
+
+
+
+
+    // =============================== Main
+
+    new Vue({
+      el: '#app',
+      data: {
+        list: [
+          { id: 1, name: 'スライム', hp: 10 },
+          { id: 2, name: 'スライムベス', hp: 20 },
+          { id: 3, name: 'ホイミスライム', hp: 30 }
+        ]
+      },
+      components: {
+        'my-component-local': myComponentLocal
+      }
+    })
+
+  </script>
+</body>
+
+</html>
