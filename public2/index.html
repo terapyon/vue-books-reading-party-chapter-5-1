@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <script src="https://npmcdn.com/vue/dist/vue.js"></script>
+  <title>基礎から学ぶ Vue.js 輪読会 CHAPTER 5 後半</title>
+  <!-- <link rel='stylesheet' href='main.css'> -->
+  <style>
+    body {
+      padding-left: 10rem;
+      padding-right: 10rem;
+    }
+
+    h1 {
+      padding-bottom: 0.5rem;
+      border-bottom: 5px solid #000;
+    }
+
+    h2 {
+      color: forestgreen;
+      margin-top: 3rem;
+    }
+
+    hr {
+      margin: 3rem 0;
+    }
+
+    .code {
+      font-family: 'Courier New', Courier, monospace;
+      font-weight: bold;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      background-color: #eef;
+      padding: 1rem 1rem;
+      white-space: pre;
+    }
+
+    .component {
+      border: 1px solid #ccc;
+      background-color: #eee;
+      padding: 1rem 1rem;
+    }
+
+    .column {
+      border: 1px solid #cdc;
+      background-color: #efe;
+      padding: 1rem 1rem;
+      overflow: scroll;
+    }
+
+    pre {
+      margin: 0;
+      padding: 0;
+    }
+
+    code {
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 12px;
+    }
+
+    .parent {
+      background-color: #dcc;
+      display: inline-block;
+      padding: 0.5rem;
+    }
+
+    .child {
+      background-color: #fee;
+      display: inline-block;
+      padding: 0.5rem;
+    }
+
+    .named {
+      background-color: #cbb;
+      display: inline-block;
+      padding: 0.5rem;
+    }
+
+    .scoped {
+      background-color: #baa;
+      display: inline-block;
+      padding: 0.5rem;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Root 要素 -->
+  <div id="app">
+
+    <h1>基礎から学ぶ Vue.js 輪読会 CHAPTER 5 後半</h1>
+    <h2>SECTION 25 : コンポーネントの双方向データバインディング</h2>
+    <h3>コンポーネントのv-model</h3>
+    <div class='code'>
+      &lt;my-calender v-model=&quot;date&quot;&gt;&lt;/my-calender&gt;
+    </div>
+    <div class='component'>
+      <my-calender v-model="date"></my-calender>
+    </div>
+    <hr>
+
+    <h3>.syncによる双方向データバインディング</h3>
+    <div class='code'>
+      &lt;my-component-25-2 v-bind:name.sync=&quot;name&quot;
+      v-bind:hp.sync=&quot;hp&quot;&gt;&lt;/my-component-25-2&gt;
+    </div>
+    <div class='component'>
+      <my-component-25-2 v-bind:name.sync="name" v-bind:hp.sync="hp"></my-component-25-2>
+    </div>
+    <hr>
+
+    <h2>SECTION 26 : テンプレートの定義方法</h2>
+    <h3>テンプレートの種類</h3>
+    <div class='code'>
+      &lt;my-template&gt;&lt;/my-template&gt;
+    </div>
+    <div class='component'>
+      <my-template></my-template>
+    </div>
+    <hr>
+
+    <h3>インラインテンプレート</h3>
+    <div class='code'>
+      &lt;my-component-26-1 inline-template&gt;
+      &lt;p&gt;インラインテンプレート&lt;/p&gt;
+      &lt;/my-component-26-1&gt;
+    </div>
+    <div class='component'>
+      <my-component-26-1 inline-template>
+        <p>インラインテンプレート</p>
+      </my-component-26-1>
+    </div>
+    <hr>
+
+    <h3>描画関数</h3>
+    <div class='code'>
+      &lt;my-component-26-2&gt;&lt;/my-component-26-2&gt;
+    </div>
+    <div class='component'>
+      <my-component-26-2></my-component-26-2>
+    </div>
+
+    <h3>isでコンポーネント置き換え</h3>
+    <div class='code'>
+      &lt;table border=&quot;1&quot;&gt;
+      &lt;tr is=&quot;my-row&quot;&gt;&lt;/tr&gt;
+      &lt;/table&gt;
+    </div>
+    <div class='component'>
+      <table border="1">
+        <tr is="my-row"></tr>
+      </table>
+    </div>
+    <hr>
+
+    <h2>その他の機能やオプション</h2>
+    <h3>関数型コンポーネント</h3>
+    <div class='code'>
+      &lt;my-func-component&gt;&lt;/my-func-component&gt;
+    </div>
+    <div class='component'>
+      <my-func-component></my-func-component>
+    </div>
+    <hr>
+
+    <h3>動的コンポーネント</h3>
+    <div class='code'>
+
+    </div>
+    <div class='component'>
+      <button v-on:click="current^=1">toggle</button>
+      <div v-bind:is="component"></div>
+    </div>
+    <hr>
+
+    <h3>mixin</h3>
+    <div class='code'>
+
+    </div>
+    <div class='component'>
+      <button v-on:click="current^=1">toggle</button>
+      <div v-bind:is="component2"></div>
+    </div>
+    <hr>
+
+    <h3>コンポーネントのライフサイクル</h3>
+    <div class='code'>
+
+    </div>
+    <!-- <div class='component'>
+      <my-component-27-1></my-component-27-1>
+    </div> -->
+    <hr>
+
+    <h3>keep-aliveで状態を維持する</h3>
+    <div class='code'>
+
+    </div>
+    <div class='component'>
+      <button v-on:click="currentForm='comp-board'">メッセージ一覧</button>
+      <button v-on:click="currentForm='comp-form'">投稿フォーム</button>
+      <keep-alive>
+        <div v-bind:is="currentForm"></div>
+      </keep-alive>
+    </div>
+    <hr>
+
+
+  </div>
+
+  <!-- =============================== -->
+
+  <!-- Vue 関係の処理 -->
+  <script>
+
+    // コンポーネントのv-model 
+    Vue.component('my-calender',{
+      template: '<div class="my-calender">{{value}}</div>',
+      props: {
+        value: String,
+      },
+      // created: function () {
+      //   this.$emit('input','2019-10-31')
+      // },
+    }
+    )
+
+    // .syncによる双方向データバインディング
+    Vue.component('my-component-25-2',{
+      template: `
+      <div class="my-component-25-2">
+      <p>名前.{{ name }} HP.{{ hp }}</p>
+      <p>名前 <input v-model="localName"></p>
+      <p>HP <input size="5" v-model.number="localHp"></p>
+      </div>
+      `,
+      props: {
+        name: String,
+        hp: Number
+      },
+      computed: {
+        localName: {
+          get: function () { return this.name },
+          set: function (val) { this.$emit('update:name',val) }
+        },
+        localHp: {
+          get: function () { return this.hp },
+          set: function (val) { this.$emit('update:hp',val) }
+        }
+      }
+    })
+
+    // テンプレートの種類
+    Vue.component('my-template',{
+      template: `
+        <div>
+        <p>テンプレート</p>
+        <p>テンプレート</p>
+        </div>
+      `
+    })
+
+    // インラインテンプレート
+    Vue.component('my-component-26-1',{})
+
+    // 描画関数
+    Vue.component('my-component-26-2',{
+      // template: '<p>やりたい事ができていない</p>'
+      render: function (createElement) {
+        // var options='test'
+        // return createElement('element',{ options })
+        return createElement('div','test test')
+      }
+    })
+
+    // isでコンポーネント置き換え
+    Vue.component('my-row',{
+      template: `<tr>
+        <td>テーブル1</td>
+        <td>要素1</td>
+        </tr>
+      `
+    })
+
+    // 関数型コンポーネント
+    Vue.component('my-func-component',{
+      functional: true,
+      render: function (createElement,context) {
+        return createElement('div',context.props.message)
+      },
+      props: { message: String }
+      // うまくいかない
+    })
+
+    // 動的コンポーネント
+    Vue.component('my-component-a',{
+      template: '<div class="my-a">コンポーネントA</div>'
+    })
+    Vue.component('my-component-b',{
+      template: '<div class="my-b">コンポーネントB</div>'
+    })
+
+    // mixin
+    var mixin={
+      created: function () {
+        this.hello()
+      },
+      methods: {
+        hello: function () {
+          console.log('hello from mixin')
+        }
+      }
+    }
+    Vue.component('my-use-mixin-a',{
+      mixins: [mixin],
+      template: '<div class="my-a">コンポーネントA</div>'
+    })
+    Vue.component('my-use-mixin-b',{
+      // mixins: [mixin],
+      template: '<div class="my-b">コンポーネントB</div>'
+    })
+
+    // コンポーネントのライフサイクル
+    Vue.component('my-component-27-1',{
+      // template: '<comp-child v-if="show">見えている</comp-child>',
+      template: '<div class="child" v-if="show">テンプレート</div>',
+      // props: ['show'],
+      // うまくいかない
+    })
+
+    // keep-aliveで状態を維持する
+    Vue.component('comp-board',{
+      template: "<div>メッセージボード</div>"
+    })
+    Vue.component('comp-form',{
+      template: '<div>Form<textarea v-model="message"></textarea></div>',
+      data: function () {
+        return { message: '' }
+      }
+    })
+
+    // =============================== Main
+
+    new Vue({
+      el: '#app',
+      data: {
+        // list: [
+        //   { id: 1,name: 'スライム',hp: 10 },
+        //   { id: 2,name: 'スライムベス',hp: 20 },
+        //   { id: 3,name: 'ホイミスライム',hp: 30 }
+        // ],
+        date: "2018-01-01",  // my-calender 用
+        name: 'スライム',  // .sync用
+        hp: 100,  // .sync用
+        message: "表示用メッセージ", // 関数型コンポーネント用
+        componentTypes: ['my-component-a','my-component-b'], // 動的テンプレート用
+        current: 0, // 動的テンプレート用
+        componentUseMixinTypes: ['my-use-mixin-a','my-use-mixin-b'], // mixin用
+        // show: true,
+        currentForm: 'comp-board', // keep-alive用
+      },
+      computed: {
+        component: function () {
+          return this.componentTypes[this.current]
+        },  // 動的テンプレート用
+        component2: function () {
+          return this.componentUseMixinTypes[this.current]
+        },  // 動的テンプレート用
+      }
+    })
+
+  </script>
+</body>
+
+</html>
