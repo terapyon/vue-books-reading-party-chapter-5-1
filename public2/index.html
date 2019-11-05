@@ -149,6 +149,7 @@
     </div>
     <div class='component'>
       <table border="1">
+        <!-- <my-row></my-row> -->
         <tr is="my-row"></tr>
       </table>
     </div>
@@ -160,7 +161,7 @@
       &lt;my-func-component&gt;&lt;/my-func-component&gt;
     </div>
     <div class='component'>
-      <my-func-component></my-func-component>
+      <my-func-component v-bind:message="message"></my-func-component>
     </div>
     <hr>
 
@@ -220,9 +221,9 @@
       props: {
         value: String,
       },
-      // created: function () {
-      //   this.$emit('input','2019-10-31')
-      // },
+      created: function () {
+        this.$emit('input','2019-10-31')
+      },
     }
     )
 
@@ -268,9 +269,9 @@
     Vue.component('my-component-26-2',{
       // template: '<p>やりたい事ができていない</p>'
       render: function (createElement) {
-        // var options='test'
-        // return createElement('element',{ options })
-        return createElement('div','test test')
+        // var options={ title: 'test' }
+        // return createElement('div',{ options },'test2')
+        return createElement('div','test test terada')
       }
     })
 
@@ -287,10 +288,10 @@
     Vue.component('my-func-component',{
       functional: true,
       render: function (createElement,context) {
+        // console.log(context)
         return createElement('div',context.props.message)
       },
       props: { message: String }
-      // うまくいかない
     })
 
     // 動的コンポーネント
@@ -317,7 +318,7 @@
       template: '<div class="my-a">コンポーネントA</div>'
     })
     Vue.component('my-use-mixin-b',{
-      // mixins: [mixin],
+      mixins: [mixin],
       template: '<div class="my-b">コンポーネントB</div>'
     })
 
